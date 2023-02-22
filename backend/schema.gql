@@ -1,0 +1,98 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  blogs: [Blog!]
+  comments: [Comment!]
+}
+
+type Comment {
+  id: Int!
+  comment: String!
+  uploadedDate: DateTime!
+  lastEdited: DateTime!
+  blog: Blog!
+  user: User!
+  parent: Comment
+  children: [Comment!]
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Blog {
+  id: Int!
+  title: String!
+  blog: String!
+  uploadedDate: DateTime!
+  lastEdited: DateTime!
+  user: User!
+  comments: [Comment!]
+}
+
+type SearchDTO {
+  id: Int!
+  title: String!
+  blog: String!
+  userId: Int!
+  firstName: String!
+  lastName: String!
+}
+
+type Query {
+  searchBlogs(searchStr: String!): [SearchDTO!]!
+  getBlogs: [Blog!]!
+  getBlogById(bid: Int!): Blog!
+  getBlogByUserId(uid: Int!): [Blog!]!
+  getAllUsers: [User!]!
+  getUserById(uid: Int!): User!
+  getCommentById(cid: Int!): Comment!
+}
+
+type Mutation {
+  createBlog(createBlogDTO: CreateBlogDTO!): Blog!
+  updateBlog(bid: Int!, createBlogDTO: CreateBlogDTO!): Blog!
+  deleteBlog(bid: Int!): String!
+  signup(createUserDTO: CreateUserDTO!): User!
+  forgotPassword(email: String!): String!
+  resetPassword(resetPasswordDTO: ResetPasswordDTO!): User!
+  createComment(commentDTO: CommentDTO!): Comment!
+  updateComment(cid: Int!, comment: String!): Comment!
+  deleteComment(cid: Int!): String!
+  login(loginDTO: LoginDTO!): String!
+}
+
+input CreateBlogDTO {
+  title: String!
+  blog: String!
+}
+
+input CreateUserDTO {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input ResetPasswordDTO {
+  password: String!
+  verificationCode: String!
+}
+
+input CommentDTO {
+  comment: String!
+  blogId: Float!
+  parentId: Float
+}
+
+input LoginDTO {
+  email: String!
+  password: String!
+}
